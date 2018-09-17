@@ -4,6 +4,8 @@ namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Weight;
+use App\Http\Requests\GetWeightRequest;
 
 class WeightController extends Controller
 {
@@ -12,9 +14,14 @@ class WeightController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(GetWeightRequest $request)
     {
-        //
+      if ($request->has('onDate')) {
+        return Weight::whereDate('weightDate', '=', $request->query('onDate'))->findOrFail(1);
+      } else {
+        // Return last 30 days of weight
+        return Weight::orderBy('weightDate', 'desc')->take(30)->get();
+      }
     }
 
     /**

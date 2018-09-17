@@ -17,6 +17,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::apiResources([
-  'weight' => 'API/WeightController'
-]);
+//Route::get('v1/weight', 'API\WeightController@index');
+Route::apiResource('v1/weight', 'API\WeightController');
